@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +26,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
+    private ArrayList<String> mLinkUrls = new ArrayList<>();
     private Context mContext;
-    Uri uri;
-    Intent intent;
+    private WebView webView;
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<String> mImageName, ArrayList<String> mImages) {
+
+
+
+    public RecyclerViewAdapter(Context mContext, ArrayList<String> mImageName, ArrayList<String> mImages, ArrayList<String> mLinks, WebView inWebView) {
         this.mImageNames = mImageName;
         this.mImages = mImages;
+        this.mLinkUrls = mLinks;
         this.mContext = mContext;
+        this.webView = inWebView;
     }
+
+
+
+
 
     @NonNull
     @Override
@@ -47,6 +57,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         Log.d(TAG, "onBindViewHolder: called.");
 
+
+
         Glide.with(mContext)
                 .asBitmap()
                 .load(mImages.get(position))
@@ -57,16 +69,28 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
-                
 
-                uri = Uri.parse("https://www.camdencountylibrary.org/sites/default/files/images/staffdayphoto500.jpg");
-                intent = new Intent(Intent.ACTION_VIEW,uri);
-                mContext.startActivity(intent);
+               
+               Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
+               Intent browser = new Intent(mContext, browserWebView.class);
+               browser.putExtra("url", mLinkUrls.get(position));
+               mContext.startActivity(browser) ;
+               
+
+
+
+                //webView.loadUrl(mLinkUrls.get(position));
+
+
+
             }
         });
 
     }
+
+    
+
+
 
     @Override
     public int getItemCount() {
