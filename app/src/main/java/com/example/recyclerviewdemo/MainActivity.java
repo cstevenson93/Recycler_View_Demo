@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         mNames.add("CamCat");
         mLinkUrls.add("https://camden.bywatersolutions.com/");
 
-        webView = (WebView) findViewById(R.id.webview);
+        //webView = (WebView) findViewById(R.id.webview);
 
         initRecyclerView();
 
