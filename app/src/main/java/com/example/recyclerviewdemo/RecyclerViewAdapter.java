@@ -27,16 +27,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private ArrayList<String> mImageNames = new ArrayList<>();
     private ArrayList<String> mImages = new ArrayList<>();
     private ArrayList<String> mLinkUrls = new ArrayList<>();
+    private ArrayList<String> mPackages = new ArrayList<>();
     private Context mContext;
     private WebView webView;
 
 
 
 
-    public RecyclerViewAdapter(Context mContext, ArrayList<String> mImageName, ArrayList<String> mImages, ArrayList<String> mLinks, WebView inWebView) {
+    public RecyclerViewAdapter(Context mContext, ArrayList<String> mPackageName, ArrayList<String> mImageName, ArrayList<String> mImages, ArrayList<String> mLinks, WebView inWebView) {
         this.mImageNames = mImageName;
         this.mImages = mImages;
         this.mLinkUrls = mLinks;
+        this.mPackages = mPackageName;
         this.mContext = mContext;
         this.webView = inWebView;
     }
@@ -74,6 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                Log.d(TAG, "onClick: clicked on: " + mImageNames.get(position));
                Intent browser = new Intent(mContext, browserWebView.class);
                browser.putExtra("url", mLinkUrls.get(position));
+                browser.putExtra("package", mPackages.get(position));
                mContext.startActivity(browser) ;
                
 

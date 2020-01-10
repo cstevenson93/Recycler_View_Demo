@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
+    android:background="@drawable/layout_border">
 
     <TextView
         android:id="@+id/image_name"
@@ -14,7 +16,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:text="Canada"
-        android:textColor="#000"
+        android:textColor="#cee0e2"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/image"

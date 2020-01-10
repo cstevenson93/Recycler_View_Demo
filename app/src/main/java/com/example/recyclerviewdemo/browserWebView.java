@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 public class browserWebView extends AppCompatActivity {
 
     String url;
+    Uri uri;
+    String appPackage;
     WebView myWebView;
 
 
@@ -24,17 +27,30 @@ public class browserWebView extends AppCompatActivity {
     private void launchPage(View view){
         Bundle extras = getIntent().getExtras();
         url = extras.getString("url");
-        Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+        appPackage = extras.getString("package");
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW,uri.parse("market://details?id="+appPackage));
+        //Toast.makeText(this, url, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, appPackage, Toast.LENGTH_SHORT).show();
+
+        if(url.equals("https://camden.bywatersolutions.com/")){
+            myWebView.loadUrl(url);
+        } else {
+
+            Intent launchIntent = getPackageManager().getLaunchIntentForPackage(appPackage);
+            if (launchIntent != null) {
+                startActivity(launchIntent);
+                finish();
+            } else {
+
+                startActivity(goToMarket);
+                finish();
+                //setContentView(myWebView);
+                //myWebView.loadUrl(url);
+                //Toast.makeText(MainActivity.this, "There is no package available in android", Toast.LENGTH_LONG).show();
+            }
 
 
-
-
-
-
-        myWebView.loadUrl(url);
-
-
-
+        }
 
 
 
@@ -47,8 +63,9 @@ public class browserWebView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final String javascriptURL = "javascript: (function() {document.getElementById('userid').value= '50000005754949';}) ();";
-        final String javascriptURL2 = "javascript: (function() {document.getElementById('password').value= '4949';}) ();";
+        final String javascriptUrlUser = "javascript: (function() {document.getElementById('userid').value= '50000005754949';}) ();";
+        final String javascriptUrlPass = "javascript: (function() {document.getElementById('password').value= '4949';}) ();";
+        final String javascriptUrlLogin ="javascript: (function() {document.getElementsByTagName('input')[9].click();}) ();";
 
 
         //final String javascriptURL = "javascript:document.getElementById(\"userid\").value='5';";
@@ -83,10 +100,14 @@ public class browserWebView extends AppCompatActivity {
 
             public void onPageFinished(WebView view, String url) {
 
-                Toast.makeText(browserWebView.this, javascriptURL, Toast.LENGTH_LONG).show();
-                //myWebView.getSettings().setJavaScriptEnabled(true);
-                view.loadUrl(javascriptURL);
-                view.loadUrl(javascriptURL2);
+
+                if(url.equals("https://camden.bywatersolutions.com/")) {
+                    //Toast.makeText(browserWebView.this, "Current Url: " + url, Toast.LENGTH_LONG).show();
+                    //myWebView.getSettings().setJavaScriptEnabled(true);
+                    view.loadUrl(javascriptUrlUser);
+                    view.loadUrl(javascriptUrlPass);
+                    view.loadUrl(javascriptUrlLogin);
+                }
 
 
 
